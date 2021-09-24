@@ -1,33 +1,31 @@
 #!/bin/sh
 
 clear
-
-echo "
+if [ ! -f ".majMAC.tmp" ]; then
+  echo "
 =======================================================================
 Verification de l'installation de YOUTUBE-DL et de ces dépendences ...
 (Une demande des droits administrateur peut être demandé pour installer
 ou mettre à jour YOUTUBE-DL)
 ======================================================================="
-verif=0
-if [ ! -f "/usr/local/bin/brew" ]; then
-  verif=1
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
-  brew update
-fi
 
-if [ ! -d "/usr/local/Cellar/youtube-dl" ]; then
-  verif=1
-  brew install youtube-dl
-fi
+  if [ ! -f "/usr/local/bin/brew" ]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+    brew update
+  fi
 
-if [ ! -d "/usr/local/Cellar/ffmpeg" ]; then
-  verif=1
-  brew install ffmpeg
-fi
-if [ "$verif" = "1" ]; then
+  if [ ! -d "/usr/local/Cellar/youtube-dl" ]; then
+    brew install youtube-dl
+  fi
+
+  if [ ! -d "/usr/local/Cellar/ffmpeg" ]; then
+    brew install ffmpeg
+  fi
+
   brew upgrade
+  touch .majMAC.tmp
+  echo "Verif OK"
 fi
-
 
 echo "=======================================================================
 Lancement du script YTdl-Mac ...
@@ -98,3 +96,5 @@ else
 Fin de programme
 ======================================================================="
 fi
+
+./againOrEnd.sh

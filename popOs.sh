@@ -2,25 +2,24 @@
 
 clear
 
-echo "
+if [ ! -f ".majPOP.tmp" ]; then
+  echo "
 =======================================================================
 Verification de l'installation de YOUTUBE-DL et de ces dépendences ...
 (Une demande des droits administrateur peut être demandé pour installer
 ou mettre à jour YOUTUBE-DL)
 ======================================================================="
-verif=0
-if [ ! -f "/usr/bin/youtube-dl" ]; then
-  verif=1
-  sudo apt install youtube-dl
-fi
-if [ ! -f "/usr/bin/ffmpeg" ]; then
-  verif=1
-  sudo apt install ffmpeg
-fi
-if [ "$verif" = "1" ]; then
+
+  if [ ! -f "/usr/bin/youtube-dl" ]; then
+    sudo apt install youtube-dl
+  fi
+  if [ ! -f "/usr/bin/ffmpeg" ]; then
+    sudo apt install ffmpeg
+  fi
   sudo apt update && sudo apt upgrade
+  touch .majPOP.tmp
+  echo "Verif OK"
 fi
-echo "Verif OK"
 
 echo "=======================================================================
 Lancement du script YTdl-LinuxPopOs Debian Ubuntu Mint et Co ...
@@ -51,3 +50,5 @@ Fin de programme
 else
     ./popOs.sh
 fi
+
+./againOrEnd.sh

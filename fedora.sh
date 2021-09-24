@@ -1,25 +1,24 @@
 #!/bin/sh
 clear
 
-echo "
+if [ ! -f ".majFED.tmp" ]; then
+  echo "
 =======================================================================
 Verification de l'installation de YOUTUBE-DL et de ces dépendences ...
 (Une demande des droits administrateur peut être demandé pour installer
 ou mettre à jour YOUTUBE-DL)
 ======================================================================="
-verif=0
-if [ ! -f "/usr/bin/youtube-dl" ]; then
-  verif=1
-  sudo dnf install youtube-dl
-fi
-if [ ! -f "/usr/bin/ffmpeg" ]; then
-  verif=1
-  sudo dnf install ffmpeg
-fi
-if [ "$verif" = "1" ]; then
+
+  if [ ! -f "/usr/bin/youtube-dl" ]; then
+    sudo dnf install youtube-dl
+  fi
+  if [ ! -f "/usr/bin/ffmpeg" ]; then
+    sudo dnf install ffmpeg
+  fi
   sudo dnf update
+  touch .majFED.tmp
+  echo "Verif OK"
 fi
-echo "Verif OK"
 
 echo "=======================================================================
 Lancement du script YTdl-LinuxFedora ...
@@ -50,3 +49,5 @@ Fin de programme
 else
     ./fedora.sh
 fi
+
+./againOrEnd.sh
